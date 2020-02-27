@@ -25,7 +25,7 @@ import (
 
 // ConfigData is supplied to the loadbalancer config template
 type ConfigData struct {
-	ControlPlanePort int
+	ControlPlanePort uint
 	BackendServers   map[string]string
 	IPv6             bool
 }
