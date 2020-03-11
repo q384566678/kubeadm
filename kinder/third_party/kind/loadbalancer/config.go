@@ -25,7 +25,7 @@ import (
 
 // ConfigData is supplied to the loadbalancer config template
 type ConfigData struct {
-	ControlPlanePort uint
+	ControlPlanePort int
 	BackendServers   map[string]string
 	IPv6             bool
 }
@@ -64,6 +64,9 @@ backend kube-apiservers
 // Config returns a kubeadm config generated from config data, in particular
 // the kubernetes version
 func Config(data *ConfigData) (config string, err error) {
+	if 0 > data.ControlPlanePort {
+		return "", errors.Wrap(err, "ControlPlanePort must be bigger than 0")
+	}
 	t, err := template.New("loadbalancer-config").Parse(DefaultConfigTemplate)
 	if err != nil {
 		return "", errors.Wrap(err, "failed to parse config template")
